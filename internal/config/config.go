@@ -50,6 +50,9 @@ type Config struct {
 	Debug   bool   `json:"debug"`
 	Quiet   bool   `json:"quiet"`
 
+	// MCP
+	MCPReadOnly bool `json:"mcp_readonly"`
+
 	// Auth token (runtime only, not persisted)
 	RawToken string `json:"-"`
 }
@@ -199,6 +202,7 @@ func envMap() map[string]string {
 		"WAZUH_INSECURE", "WAZUH_CA_CERT", "WAZUH_CLIENT_CERT", "WAZUH_CLIENT_KEY",
 		"WAZUH_TIMEOUT", "WAZUH_OUTPUT", "WAZUH_PRETTY",
 		"WAZUH_INDEXER_URL", "WAZUH_INDEXER_USER", "WAZUH_INDEXER_PASSWORD", "WAZUH_INDEXER_INDEX",
+		"WAZUH_MCP_READONLY",
 	}
 	m := make(map[string]string, len(keys))
 	for _, k := range keys {
@@ -249,6 +253,9 @@ func applyEnvMap(cfg *Config, env map[string]string) {
 	}
 	if v := env["WAZUH_INDEXER_INDEX"]; v != "" {
 		cfg.IndexerIndex = v
+	}
+	if v := env["WAZUH_MCP_READONLY"]; v == "true" || v == "1" || v == "yes" {
+		cfg.MCPReadOnly = true
 	}
 }
 
@@ -304,6 +311,9 @@ func applyOverrides(dst, src *Config) {
 	}
 	if src.IndexerIndex != "" {
 		dst.IndexerIndex = src.IndexerIndex
+	}
+	if src.MCPReadOnly {
+		dst.MCPReadOnly = true
 	}
 }
 

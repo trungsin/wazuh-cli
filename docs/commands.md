@@ -42,6 +42,9 @@ These flags apply to all commands:
 - `mitre`: Query MITRE ATT&CK framework mappings.
 - `ciscat`: CIS-CAT assessment results.
 
+### AI Agent Integration
+- `mcp`: Start an MCP (Model Context Protocol) server over stdio. Exposes Wazuh operations as tools for AI agents (Claude Desktop, Cursor, Cline). Available tools: `agent_list`, `agent_get`, `agent_summary`, `alert_list`, `alert_get`, `alert_stats`, `vulnerability_list`, `vulnerability_summary`. Resources: `wazuh://agent/{id}`, `wazuh://alert/{id}`. Alert tools require indexer configuration (`WAZUH_INDEXER_URL`); they are hidden when not configured. Set `WAZUH_MCP_READONLY=true` for read-only mode. Audit logs go to stderr as JSON lines (suppress with `--quiet`).
+
 ## Output Formats
 
 ### JSON (Default)

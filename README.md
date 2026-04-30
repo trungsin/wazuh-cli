@@ -43,6 +43,43 @@ Quick links to deep-dive guides:
 
 ---
 
+## MCP Server (AI Agent Integration)
+
+`wazuh-cli` includes a built-in MCP (Model Context Protocol) server, letting AI agents call Wazuh operations directly as tools.
+
+```bash
+# Start the MCP server (stdio transport)
+wazuh-cli mcp
+```
+
+**Claude Desktop / Cursor config:**
+```json
+{
+  "mcpServers": {
+    "wazuh": {
+      "command": "wazuh-cli",
+      "args": ["mcp"],
+      "env": {
+        "WAZUH_URL": "https://your-wazuh:55000",
+        "WAZUH_USER": "wazuh-wui",
+        "WAZUH_PASSWORD": "your-password",
+        "WAZUH_INSECURE": "true"
+      }
+    }
+  }
+}
+```
+
+**Available tools:** `agent_list`, `agent_get`, `agent_summary`, `alert_list`, `alert_get`, `alert_stats`, `vulnerability_list`, `vulnerability_summary`
+
+**Resources:** `wazuh://agent/{id}`, `wazuh://alert/{id}`
+
+**Note:** Alert tools and `wazuh://alert/{id}` resource require indexer configuration (`WAZUH_INDEXER_URL`). They are automatically hidden when indexer is not configured.
+
+**Security:** Set `WAZUH_MCP_READONLY=true` for read-only mode (restricts write tools in future phases). Audit logs (JSON lines) go to stderr; suppress with `--quiet`.
+
+---
+
 ## 🛠️ Installation
 
 ### ⚡ One-liner (Linux & macOS)

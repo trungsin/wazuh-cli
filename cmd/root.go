@@ -52,7 +52,7 @@ Errors: machine-readable JSON on stdout, human text on stderr`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// Skip for commands that don't need auth (init, config, auth, version, completion)
 		name := cmd.Name()
-		if name == "init" || name == "version" || name == "completion" ||
+		if name == "init" || name == "version" || name == "completion" || name == "mcp" ||
 			name == "config" || (cmd.HasParent() && cmd.Parent().Name() == "config") ||
 			name == "auth" || (cmd.HasParent() && cmd.Parent().Name() == "auth") ||
 			name == "alert" || (cmd.HasParent() && cmd.Parent().Name() == "alert") {
